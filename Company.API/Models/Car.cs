@@ -1,4 +1,6 @@
-﻿namespace CarInformation.API.Models
+﻿using System.Text.Json.Serialization;
+
+namespace CarInformation.API.Models
 {
     public class Car
     {
@@ -7,6 +9,7 @@
         public int HighestSpeed { get; set; }
         public string Color { get; set; }
         public int CompanyId { get; set; }
-        public CarsCompany Company { get; set; } = null!;
+        [JsonIgnore]
+        public CarsCompany? Company { get; set; }
     }
 }
