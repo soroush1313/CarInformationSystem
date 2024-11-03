@@ -4,7 +4,7 @@ using MediatR;
 
 namespace CarInformation.API.Features.Car.Handlers
 {
-    public class DeleteCarCommandHandler : IRequestHandler<DeleteCarCommand, Models.Car>
+    public class DeleteCarCommandHandler : IRequestHandler<DeleteCarCommand, bool>
     {
         private readonly ICarRepository _carRepository;
         public DeleteCarCommandHandler(ICarRepository carRepository)
