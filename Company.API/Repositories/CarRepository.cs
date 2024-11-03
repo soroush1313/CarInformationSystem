@@ -19,14 +19,17 @@ namespace CarInformation.API.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteCarAsync(int id)
+        public async Task<bool> DeleteCarAsync(int id)
         {
             var car = await _context.Cars.FindAsync(id);
-            if(car != null)
+            if(car == null)
             {
-                _context.Cars.Remove(car);
-                await _context.SaveChangesAsync();
+                return false;
             }
+
+            _context.Cars.Remove(car);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<IEnumerable<Car>> GetAllCarsAsync()

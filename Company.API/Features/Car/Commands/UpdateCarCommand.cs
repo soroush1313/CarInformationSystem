@@ -1,6 +1,6 @@
-﻿namespace CarInformation.API.Features.Car.Commands
+﻿using MediatR;
+
+namespace CarInformation.API.Features.Car.Commands
 {
-    public class UpdateCarCommand
-    {
-    }
+    public record UpdateCarCommand(int Id , string Model, int HighestSpeed, string Color, int CompanyId) : IRequest<Models.Car>;
 }
