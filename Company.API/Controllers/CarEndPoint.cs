@@ -1,5 +1,9 @@
-﻿using CarInformation.API.Models;
+﻿using CarInformation.API.Features.Car.Commands;
+using CarInformation.API.Features.Car.Queries;
+using CarInformation.API.Models;
 using CarInformation.API.Services.Interface;
+using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace CarInformation.API.Controllers
@@ -8,48 +12,37 @@ namespace CarInformation.API.Controllers
     {
         public static void MapCarEndPoint(this WebApplication app)
         {
-            app.MapGet("/cars", async (ICarService carService) =>
+            app.MapPost("/cars", async (CreateCarCommand command, IMediator mediator) =>
             {
-                var cars = await carService.GetAllCarsAsync();
-                return Results.Ok(cars);
-            });
-
-            app.MapGet("/cars/{id:int}", async (int id, ICarService carService) =>
-            {
-                var car = await carService.GetCarByIdAsync(id);
-                return car is not null ? Results.Ok(car) : Results.NotFound();
-            });
-
-            app.MapPost("/cars", async (Car car, ICarService carService) =>
-            {
-                await carService.AddCarAsync(car);
+                var car = await mediator.Send(command);
                 return Results.Created($"/cars/{car.Id}", car);
             });
 
-            app.MapDelete("/cars", async (int id, ICarService carService) =>
+            app.MapGet("/cars/{id}", async (int id, IMediator mediator) =>
             {
-                await carService.DeleteCarAsync(id);
-                return Results.NoContent();
+                var car = await mediator.Send(new GetCarByIdQuery(id));
+                return car is not null ? Results.Ok(car) : Results.NotFound();
             });
 
-            //app.MapPut("/companies/{companyId:int}/cars/{carId:int}", async (int companyId , int carId , Car updatedCar , ICarService carService , ICompanyService companyService) =>
-            //{
-            //    try
-            //    {
-            //        var companyExists = await companyService.GetCompanyByIdAsync(companyId) != null;
-            //        if (!companyExists)
-            //        {
-            //            return Results.NotFound($"Company with ID {companyId} not found.");
-            //        }
-            //        var cars = 
+            app.MapGet("/cars", async (IMediator mediator) =>
+            {
+                var cars = await mediator.Send(new GetAllCarsQuery());
+                return Results.Ok(cars);
+            });
 
-            //    }
-            //    catch (Exception)
-            //    {
+            app.MapPut("/cars/{id}", async (int id, UpdateCarCommand command, IMediator mediator) =>
+            {
+                if (id != command.Id)
+                    return Results.BadRequest();
+                var updatedCar = await mediator.Send(command);
+                return updatedCar is not null ? Results.Ok(updatedCar) : Results.NotFound();
+            });
 
-            //        throw;
-            //    }
-            //})
+            app.MapDelete("/cars/{id}", async (int id, IMediator mediator) =>
+            {
+                var result = await mediator.Send(new DeleteCarCommand(id));
+                return result ? Results.NoContent() : Results.NotFound();
+            });
         }
     }
 }
