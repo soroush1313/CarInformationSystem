@@ -9,6 +9,6 @@ namespace CarInformation.API.Repositories.Interface
         Task<CarsCompany> GetCompanywithCarsAsync(int id);
         Task AddCompanyAsync(CarsCompany company);
         Task UpdateCompanyAsync(CarsCompany company);
-        Task DeleteCompanyAsync(int id);
+        Task<bool> DeleteCompanyAsync(int id);
     }
 }

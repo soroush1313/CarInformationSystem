@@ -15,7 +15,8 @@ namespace CarInformation.API.Data
             modelBuilder.Entity<CarsCompany>()
                 .HasMany(c => c.Cars)
                 .WithOne(c => c.Company)
-                .HasForeignKey(c => c.CompanyId);
+                .HasForeignKey(c => c.CompanyId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(modelBuilder);
         }

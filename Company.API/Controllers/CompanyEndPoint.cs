@@ -1,5 +1,8 @@
-﻿using CarInformation.API.Models;
+﻿using CarInformation.API.Features.Company.Commands;
+using CarInformation.API.Features.Company.Queries;
+using CarInformation.API.Models;
 using CarInformation.API.Services.Interface;
+using MediatR;
 
 namespace Company.API.Controllers
 {
@@ -7,48 +10,40 @@ namespace Company.API.Controllers
     {
         public static void MapCompanyEndPoint(this WebApplication app)
         {
-            app.MapGet("/companies", async (ICompanyService companyService) =>
+            app.MapPost("companies", async (CreateCompanyCommand command, IMediator mediator) =>
             {
-                var companies = await companyService.GetAllCompaniesAsync();
-                return Results.Ok(companies);
-            });
-
-            app.MapGet("/companies/{id:int}", async (int id, ICompanyService companyService) =>
-            {
-                var company = await companyService.GetCompanyByIdAsync(id);
-                return company is not null ? Results.Ok(company) : Results.NotFound();
-            });
-
-            app.MapGet("/companies/{id:int}/cars", async (int id, ICompanyService companyService) =>
-            {
-                var companyWithCars = await companyService.GetCompanywithCarsAsync(id);
-                return companyWithCars is not null ? Results.Ok(companyWithCars) : Results.NotFound();
-            });
-
-            app.MapPost("/companies", async (CarsCompany company, ICompanyService companyService) =>
-            {
-                await companyService.AddCompanyAsync(company);
+                var company = await mediator.Send(command);
                 return Results.Created($"/companies/{company.Id}", company);
             });
 
-            app.MapDelete("/companies/{id:int}", async (int id, ICompanyService companyService) =>
+            app.MapGet("companies", async (IMediator mediator) =>
             {
-                await companyService.DeleteCompanyAsync(id);
-                return Results.NoContent();
+                var company = await mediator.Send(new GetAllCompaniesQuery());
+                return Results.Ok(company);
             });
 
-            app.MapPut("/companies/{id:int}", async (int id, CarsCompany updatedCompany, ICompanyService companyService) =>
+            app.MapGet("companies/{id}", async (int id, IMediator mediator) =>
             {
-                var existingCompany = await companyService.GetCompanyByIdAsync(id);
-                if (existingCompany == null)
-                {
-                    return Results.NotFound($"Company with ID {id} not found!");
-                }
-                existingCompany.CompanyName = updatedCompany.CompanyName;
-                existingCompany.Country = updatedCompany.Country;
-                await companyService.UpdateCompanyAsync(existingCompany);
-                return Results.NoContent();
+                var company = await mediator.Send(new GetCompanyByIdQuery(id));
+                return company is not null ? Results.Ok(company) : Results.NotFound();
             });
+
+            app.MapPut("companies/{id}", async (int id, UpdateCompanyCommand command, IMediator mediator) =>
+            {
+                if (id != command.Id)
+                {
+                    return Results.BadRequest();
+                }
+                var updatedCompany = mediator.Send(command);
+                return updatedCompany is not null ? Results.Ok(updatedCompany) : Results.NotFound();
+            });
+
+            app.MapDelete("companies/{id}", async (int id, IMediator mediator) =>
+            {
+                var result = await mediator.Send(new DeleteCompanyCommand(id));
+                return result ? Results.NoContent() : Results.NotFound();
+            });
+
         }
     }
 }

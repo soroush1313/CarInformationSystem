@@ -1,6 +1,7 @@
-﻿namespace CarInformation.API.Features.Company.Queries
+﻿using CarInformation.API.Models;
+using MediatR;
+
+namespace CarInformation.API.Features.Company.Queries
 {
-    public class GetCompanyByIdQuery
-    {
-    }
+    public record GetCompanyByIdQuery(int Id) : IRequest<CarsCompany>;
 }

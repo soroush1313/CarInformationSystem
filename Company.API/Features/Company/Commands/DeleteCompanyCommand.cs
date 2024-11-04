@@ -1,6 +1,6 @@
-﻿namespace CarInformation.API.Features.Company.Commands
+﻿using MediatR;
+
+namespace CarInformation.API.Features.Company.Commands
 {
-    public class DeleteCompanyCommand
-    {
-    }
+    public record DeleteCompanyCommand(int Id) : IRequest<bool>;
 }
