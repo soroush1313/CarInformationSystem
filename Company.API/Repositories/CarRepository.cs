@@ -54,6 +54,7 @@ namespace CarInformation.API.Repositories
             {
                 existingCar.Model = car.Model;
                 existingCar.Color = car.Color;
+                existingCar.HighestSpeed = car.HighestSpeed;
                 _context.Entry(existingCar).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }

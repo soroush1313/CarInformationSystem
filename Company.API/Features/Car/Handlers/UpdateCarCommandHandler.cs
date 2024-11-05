@@ -21,7 +21,7 @@ namespace CarInformation.API.Features.Car.Handlers
             car.Color = request.Color;
             car.Model = request.Model;
             car.HighestSpeed = request.HighestSpeed;
-            car.CompanyId = request.CompanyId;
+            //car.CompanyId = request.CompanyId;
             await _carRepository.UpdateCarAsync(car);
             return car;
         }
