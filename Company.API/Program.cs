@@ -5,8 +5,9 @@ using CarInformation.API.Repositories.Interface;
 using CarInformation.API.Services;
 using CarInformation.API.Services.Interface;
 using Company.API.Controllers;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,8 +22,12 @@ builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<ICarService, CarService>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<ICarRepository, CarRepository>();
-builder.Services.AddMediatR(typeof(Program));
-
+//builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
+    // ... other configuration options
+});
 var provider = builder.Services.BuildServiceProvider();
 var configuration = provider.GetRequiredService<IConfiguration>();
 string connection = configuration.GetConnectionString("SqlServer");

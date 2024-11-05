@@ -34,7 +34,7 @@ namespace Company.API.Controllers
                 {
                     return Results.BadRequest();
                 }
-                var updatedCompany = mediator.Send(command);
+                var updatedCompany = await mediator.Send(command);
                 return updatedCompany is not null ? Results.Ok(updatedCompany) : Results.NotFound();
             });
 
