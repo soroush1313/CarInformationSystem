@@ -7,7 +7,7 @@ namespace CarInformation.API.Models
         public int Id { get; set; }
         public string CompanyName { get; set; }
         public string Country { get; set; }
-        [JsonIgnore]
+        //[JsonIgnore]
         public List<Car>? Cars { get; set; } = new List<Car>();
     }
 }

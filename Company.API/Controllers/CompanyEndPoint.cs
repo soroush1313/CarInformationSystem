@@ -28,6 +28,12 @@ namespace Company.API.Controllers
                 return company is not null ? Results.Ok(company) : Results.NotFound();
             });
 
+            app.MapGet("/companies/{id}/with-cars", async (int id, IMediator mediator) =>
+            {
+                var company = await mediator.Send(new GetCompanywithCarsQuery(id));
+                return company is not null ? Results.Ok(company) : Results.NotFound();
+            });
+
             app.MapPut("companies/{id}", async (int id, UpdateCompanyCommand command, IMediator mediator) =>
             {
                 if (id != command.Id)
