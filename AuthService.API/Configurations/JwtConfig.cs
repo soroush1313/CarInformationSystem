@@ -1,6 +1,6 @@
 ﻿namespace AuthService.API.Configurations
 {
-    public class JWTConfig
+    public class JwtConfig
     {
         public string Secret { get; set; }
         public int ExpiryInMinutes { get; set; }
