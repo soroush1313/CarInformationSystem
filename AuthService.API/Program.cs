@@ -26,8 +26,14 @@ builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfi
 builder.Services.AddDbContext<AuthDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Configure MongoDB
-builder.Services.AddSingleton<IMongoClient>(s => new MongoClient(builder.Configuration.GetConnectionString("MongoDb")));
+//builder.Services.AddSingleton<IMongoClient>(s => new MongoClient(builder.Configuration.GetConnectionString("MongoDb")));
+var mongoClient = new MongoClient(builder.Configuration.GetConnectionString("MongoDb"));
+var mongoDatabase = mongoClient.GetDatabase("CarInformationSystemDb");
 
+// Register MongoDB services
+builder.Services.AddSingleton(mongoDatabase);
+builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 //register repositories and services
 builder.Services.AddScoped<IUserRepository, UserRepository>();

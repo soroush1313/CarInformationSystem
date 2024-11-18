@@ -15,10 +15,12 @@ namespace AuthService.API.Services
     {
         private readonly AuthDbContext _context;
         private readonly JwtConfig _jwtConfig;
-        public AuthService(AuthDbContext context, IOptions<JwtConfig> jwtConfig)
+        private readonly ITokenService _tokenService;
+        public AuthService(AuthDbContext context, IOptions<JwtConfig> jwtConfig, ITokenService tokenService)
         {
             _context = context;
             _jwtConfig = jwtConfig.Value;
+            _tokenService = tokenService;
         }
 
         public async Task<AuthResponse> AuthenticateUserAsync(UserLoginRequest request)
@@ -35,6 +37,13 @@ namespace AuthService.API.Services
             }
             //generate a jwtToken
             var token = GenerateJwtToken(user);
+            // Set token expiry time
+            DateTime tokenExpiry = DateTime.UtcNow.AddMinutes(_jwtConfig.ExpiryInMinutes);
+
+            // Save the generated JWT token to MongoDB (for tracking or refresh purposes)
+            string userIdAsString = user.Id.ToString();
+            await _tokenService.SaveTokenAsync(userIdAsString, token, tokenExpiry);
+
             return new AuthResponse
             {
                 Success = true,
