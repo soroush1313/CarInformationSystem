@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
+using CarInformation.API.Features.Company.Models;
 
-namespace CarInformation.API.Models
+namespace CarInformation.API.Features.Car.Models
 {
     public class Car
     {

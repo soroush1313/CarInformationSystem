@@ -1,6 +1,6 @@
-﻿using CarInformation.API.Models;
+﻿using CarInformation.API.Features.Company.Models;
 
-namespace CarInformation.API.Repositories.Interface
+namespace CarInformation.API.Features.Company.Repositories.Interface
 {
     public interface ICompanyRepository
     {

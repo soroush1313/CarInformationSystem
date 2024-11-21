@@ -1,10 +1,8 @@
 ﻿using CarInformation.API.Features.Company.Commands;
 using CarInformation.API.Features.Company.Queries;
-using CarInformation.API.Models;
-using CarInformation.API.Services.Interface;
 using MediatR;
 
-namespace Company.API.Controllers
+namespace CarInformation.API.Features.Company.Controllers
 {
     public static class CompanyEndPoint
     {

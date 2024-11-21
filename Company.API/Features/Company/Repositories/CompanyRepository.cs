@@ -1,9 +1,9 @@
 ﻿using CarInformation.API.Data;
-using CarInformation.API.Models;
-using CarInformation.API.Repositories.Interface;
+using CarInformation.API.Features.Company.Models;
+using CarInformation.API.Features.Company.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 
-namespace CarInformation.API.Repositories
+namespace CarInformation.API.Features.Company.Repositories
 {
     public class CompanyRepository : ICompanyRepository
     {

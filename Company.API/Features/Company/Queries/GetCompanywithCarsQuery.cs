@@ -1,4 +1,4 @@
-﻿using CarInformation.API.Models;
+﻿using CarInformation.API.Features.Company.Models;
 using MediatR;
 
 namespace CarInformation.API.Features.Company.Queries

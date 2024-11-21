@@ -1,4 +1,5 @@
-﻿using CarInformation.API.Models;
+﻿using CarInformation.API.Features.Car.Models;
+using CarInformation.API.Features.Company.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarInformation.API.Data

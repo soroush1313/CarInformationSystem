@@ -1,12 +1,10 @@
 ﻿using CarInformation.API.Features.Car.Commands;
 using CarInformation.API.Features.Car.Queries;
-using CarInformation.API.Models;
-using CarInformation.API.Services.Interface;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace CarInformation.API.Controllers
+namespace CarInformation.API.Features.Car.Controllers
 {
     public static class CarEndPoint
     {

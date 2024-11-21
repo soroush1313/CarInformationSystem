@@ -1,10 +1,10 @@
-using CarInformation.API.Controllers;
 using CarInformation.API.Data;
-using CarInformation.API.Repositories;
-using CarInformation.API.Repositories.Interface;
-using CarInformation.API.Services;
-using CarInformation.API.Services.Interface;
-using Company.API.Controllers;
+using CarInformation.API.Features.Car.Controllers;
+using CarInformation.API.Features.Car.Repositories;
+using CarInformation.API.Features.Car.Repositories.Interface;
+using CarInformation.API.Features.Company.Controllers;
+using CarInformation.API.Features.Company.Repositories;
+using CarInformation.API.Features.Company.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -18,8 +18,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ICompanyService, CompanyService>();
-builder.Services.AddScoped<ICarService, CarService>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<ICarRepository, CarRepository>();
 //builder.Services.AddMediatR(Assembly.GetExecutingAssembly());

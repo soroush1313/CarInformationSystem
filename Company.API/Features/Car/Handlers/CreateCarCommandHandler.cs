@@ -1,6 +1,5 @@
 ﻿using CarInformation.API.Features.Car.Commands;
-using CarInformation.API.Models;
-using CarInformation.API.Repositories.Interface;
+using CarInformation.API.Features.Car.Repositories.Interface;
 using MediatR;
 
 namespace CarInformation.API.Features.Car.Handlers

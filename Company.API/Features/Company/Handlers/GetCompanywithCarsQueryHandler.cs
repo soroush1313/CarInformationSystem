@@ -1,6 +1,6 @@
-﻿using CarInformation.API.Features.Company.Queries;
-using CarInformation.API.Models;
-using CarInformation.API.Repositories.Interface;
+﻿using CarInformation.API.Features.Company.Models;
+using CarInformation.API.Features.Company.Queries;
+using CarInformation.API.Features.Company.Repositories.Interface;
 using MediatR;
 
 namespace CarInformation.API.Features.Company.Handlers
