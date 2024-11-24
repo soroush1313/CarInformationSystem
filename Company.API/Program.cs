@@ -35,11 +35,22 @@ builder.Services.AddDbContext<CompanyDbContext>(option => option.UseSqlServer(co
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.MapCompanyEndPoint();
 app.MapCarEndPoint();

@@ -10,7 +10,7 @@ namespace CarInformation.API.Features.Car.Models
         public int HighestSpeed { get; set; }
         public string Color { get; set; }
         public int CompanyId { get; set; }
-        [JsonIgnore]
+        //[JsonIgnore]
         public CarsCompany? Company { get; set; }
     }
 }
