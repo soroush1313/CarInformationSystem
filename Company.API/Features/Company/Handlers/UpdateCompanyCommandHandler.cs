@@ -1,31 +1,32 @@
-﻿using CarInformation.API.Features.Company.Commands;
+﻿using CarInformation.API.Data;
+using CarInformation.API.Features.Company.Commands;
 using CarInformation.API.Features.Company.Models;
 using CarInformation.API.Features.Company.Repositories.Interface;
 using MediatR;
 
 namespace CarInformation.API.Features.Company.Handlers
 {
-    public class UpdateCompanyCommandHandler: IRequestHandler<UpdateCompanyCommand , CarsCompany>
+    public class UpdateCompanyCommandHandler : IRequestHandler<UpdateCompanyCommand,Unit>
     {
-        private readonly ICompanyRepository _companyRepository;
-        public UpdateCompanyCommandHandler(ICompanyRepository companyRepository)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public UpdateCompanyCommandHandler(IUnitOfWork unitOfWork)
         {
-            _companyRepository = companyRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<CarsCompany> Handle(UpdateCompanyCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateCompanyCommand request, CancellationToken cancellationToken)
         {
-            var company = await _companyRepository.GetCompanyByIdAsync(request.Id);
+            var company = await _unitOfWork.Companies.GetCompanyByIdAsync(request.Id);
             if (company == null)
-            {
-                return null;
-            }
+                throw new Exception("Company not found.");
 
             company.CompanyName = request.CompanyName;
-            company.Country = request.Country;  
+            company.Country = request.Country;
 
-            await _companyRepository.UpdateCompanyAsync(company);
-            return company;
+            await _unitOfWork.Companies.UpdateCompanyAsync(company);
+            await _unitOfWork.CompleteAsync();
+            return Unit.Value;
         }
     }
 }

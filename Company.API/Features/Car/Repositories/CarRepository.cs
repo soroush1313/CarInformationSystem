@@ -40,12 +40,5 @@ namespace CarInformation.API.Features.Car.Repositories
             var car = await GetCarByIdAsync(id);
             if (car != null) _context.Cars.Remove(car);
         }
-
-        //public async Task<IEnumerable<Models.Car>> GetCarsByCompanyAsync(int companyId)
-        //{
-        //    return await _context.Cars.Where(a => a.CompanyId == companyId).ToListAsync();
-        //}
-
-
     }
 }

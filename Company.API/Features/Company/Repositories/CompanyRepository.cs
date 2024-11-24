@@ -15,21 +15,13 @@ namespace CarInformation.API.Features.Company.Repositories
 
         public async Task AddCompanyAsync(CarsCompany company)
         {
-            _context.Companies.Add(company);
-            await _context.SaveChangesAsync();
+            await _context.Companies.AddAsync(company);
         }
 
-        public async Task<bool> DeleteCompanyAsync(int id)
+        public async Task DeleteCompanyAsync(int id)
         {
-            var company = await _context.Companies.FindAsync(id);
-            if (company == null)
-            {
-                return false;
-            }
-
-            _context.Companies.Remove(company);
-            await _context.SaveChangesAsync();
-            return true;
+            var company = await GetCompanyByIdAsync(id);
+            if (company != null) _context.Companies.Remove(company);
         }
 
         public async Task<IEnumerable<CarsCompany>> GetAllCompaniesAsync()
@@ -42,17 +34,9 @@ namespace CarInformation.API.Features.Company.Repositories
             return await _context.Companies.FindAsync(id);
         }
 
-        public async Task<CarsCompany> GetCompanywithCarsAsync(int id)
-        {
-            return await _context.Companies
-                .Include(p => p.Cars)
-                .FirstOrDefaultAsync(p => p.Id == id);
-        }
-
         public async Task UpdateCompanyAsync(CarsCompany newcompany)
         {
             _context.Companies.Update(newcompany);
-            await _context.SaveChangesAsync();
         }
     }
 }
