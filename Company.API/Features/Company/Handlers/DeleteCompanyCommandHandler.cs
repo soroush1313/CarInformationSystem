@@ -8,20 +8,22 @@ namespace CarInformation.API.Features.Company.Handlers
     public class DeleteCompanyCommandHandler : IRequestHandler<DeleteCompanyCommand,Unit>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ICompanyRepository _companyRepository;
 
-        public DeleteCompanyCommandHandler(IUnitOfWork unitOfWork)
+        public DeleteCompanyCommandHandler(IUnitOfWork unitOfWork, ICompanyRepository companyRepository)
         {
             _unitOfWork = unitOfWork;
+            _companyRepository = companyRepository;
         }
 
         public async Task<Unit> Handle(DeleteCompanyCommand request, CancellationToken cancellationToken)
         {
-            var company = await _unitOfWork.Companies.GetCompanyByIdAsync(request.Id);
+            var company = await _companyRepository.GetCompanyByIdAsync(request.Id);
             if (company == null)
                 throw new Exception("Company not found.");
 
-            await _unitOfWork.Companies.DeleteCompanyAsync(company.Id);
-            await _unitOfWork.CompleteAsync();
+            await _companyRepository.DeleteCompanyAsync(company.Id);
+            await _unitOfWork.SaveChangesAsync();
             return Unit.Value;
         }
     }

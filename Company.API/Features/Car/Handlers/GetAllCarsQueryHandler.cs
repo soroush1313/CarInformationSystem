@@ -8,16 +8,16 @@ namespace CarInformation.API.Features.Car.Handlers
 {
     public class GetAllCarsQueryHandler : IRequestHandler<GetAllCarsQuery, IEnumerable<CarResponse>>
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ICarRepository _carRepository;
 
-        public GetAllCarsQueryHandler(IUnitOfWork unitOfWork)
+        public GetAllCarsQueryHandler(ICarRepository carRepository)
         {
-            _unitOfWork = unitOfWork;
+            _carRepository = carRepository;
         }
 
         public async Task<IEnumerable<CarResponse>> Handle(GetAllCarsQuery request, CancellationToken cancellationToken)
         {
-            var cars = await _unitOfWork.Cars.GetAllCarsAsync();
+            var cars = await _carRepository.GetAllCarsAsync();
 
             return cars.Select(car => new CarResponse
             {

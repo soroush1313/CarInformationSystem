@@ -9,10 +9,12 @@ namespace CarInformation.API.Features.Car.Handlers
     public class CreateCarCommandHandler : IRequestHandler<CreateCarCommand,Unit>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ICarRepository _carRepository;
 
-        public CreateCarCommandHandler(IUnitOfWork unitOfWork)
+        public CreateCarCommandHandler(IUnitOfWork unitOfWork, ICarRepository carRepository)
         {
             _unitOfWork = unitOfWork;
+            _carRepository = carRepository;
         }
 
         public async Task<Unit> Handle(CreateCarCommand request, CancellationToken cancellationToken)
@@ -25,8 +27,8 @@ namespace CarInformation.API.Features.Car.Handlers
                 CompanyId = request.CompanyId
             };
 
-            await _unitOfWork.Cars.AddCarAsync(car);
-            await _unitOfWork.CompleteAsync();
+            await _carRepository.AddCarAsync(car);
+            await _unitOfWork.SaveChangesAsync();
             return Unit.Value;
         }
     }

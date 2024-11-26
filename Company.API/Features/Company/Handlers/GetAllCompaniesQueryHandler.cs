@@ -9,16 +9,16 @@ namespace CarInformation.API.Features.Company.Handlers
 {
     public class GetAllCompaniesQueryHandler : IRequestHandler<GetAllCompaniesQuery, List<CompanyResponse>>
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ICompanyRepository _companyRepository;
 
-        public GetAllCompaniesQueryHandler(IUnitOfWork unitOfWork)
+        public GetAllCompaniesQueryHandler(ICompanyRepository companyRepository)
         {
-            _unitOfWork = unitOfWork;
+            _companyRepository = companyRepository;
         }
 
         public async Task<List<CompanyResponse>> Handle(GetAllCompaniesQuery request, CancellationToken cancellationToken)
         {
-            var companies = await _unitOfWork.Companies.GetAllCompaniesAsync();
+            var companies = await _companyRepository.GetAllCompaniesAsync();
 
             return companies.Select(company => new CompanyResponse
             {

@@ -8,16 +8,16 @@ namespace CarInformation.API.Features.Car.Handlers
 {
     public class GetCarByIdQueryHandler : IRequestHandler<GetCarByIdQuery, CarResponse>
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ICarRepository _carRepository;
 
-        public GetCarByIdQueryHandler(IUnitOfWork unitOfWork)
+        public GetCarByIdQueryHandler(ICarRepository carRepository)
         {
-            _unitOfWork = unitOfWork;
+            _carRepository = carRepository;
         }
 
         public async Task<CarResponse> Handle(GetCarByIdQuery request, CancellationToken cancellationToken)
         {
-            var car = await _unitOfWork.Cars.GetCarByIdAsync(request.Id);
+            var car = await _carRepository.GetCarByIdAsync(request.Id);
             if (car == null) throw new KeyNotFoundException($"Car with ID {request.Id} not found");
 
             return new CarResponse

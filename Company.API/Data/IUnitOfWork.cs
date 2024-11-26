@@ -5,8 +5,6 @@ namespace CarInformation.API.Data
 {
     public interface IUnitOfWork
     {
-        ICarRepository Cars { get; }
-        ICompanyRepository Companies { get; }
-        Task CompleteAsync();
+        Task SaveChangesAsync();
     }
 }

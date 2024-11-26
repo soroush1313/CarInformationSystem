@@ -10,10 +10,12 @@ namespace CarInformation.API.Features.Company.Handlers
     public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyCommand,Unit>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ICompanyRepository _companyRepository;
 
-        public CreateCompanyCommandHandler(IUnitOfWork unitOfWork)
+        public CreateCompanyCommandHandler(IUnitOfWork unitOfWork, ICompanyRepository companyRepository)
         {
             _unitOfWork = unitOfWork;
+            _companyRepository = companyRepository;
         }
 
         public async Task<Unit> Handle(CreateCompanyCommand request, CancellationToken cancellationToken)
@@ -24,8 +26,8 @@ namespace CarInformation.API.Features.Company.Handlers
                 Country = request.Country
             };
 
-            await _unitOfWork.Companies.AddCompanyAsync(company);
-            await _unitOfWork.CompleteAsync();
+            await _companyRepository.AddCompanyAsync(company);
+            await _unitOfWork.SaveChangesAsync();
             return Unit.Value;
         }
     }
