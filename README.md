@@ -58,8 +58,9 @@ The project is divided by features, using a vertical slice approach. Each featur
 
 ---
 
-## How to Run the Project
+## Future Enhancements
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/car-information-system-api.git
+- Add authentication and authorization using JWT.
+- Build a user interface with Angular.
+- Refactor into microservices for scalability.
+- Add comprehensive unit and integration tests.
